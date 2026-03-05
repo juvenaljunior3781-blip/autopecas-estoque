@@ -1,0 +1,164 @@
+doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Estoque Autopeças</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">⚡</div>
+      <div>
+        <div class="brandName">AutoParts</div>
+        <div class="brandSub">Gestão de estoque</div>
+      </div>
+    </div>
+
+    <div class="menuTitle">GERAL</div>
+    <button class="navItem active" data-tab="dash">Dashboard</button>
+    <button class="navItem" data-tab="products">Produtos</button>
+    <button class="navItem" data-tab="categories">Categorias</button>
+
+    <div style="margin-top:16px; display:flex; gap:8px; flex-wrap:wrap;">
+    
+    </div>
+  </aside>
+
+  <div class="app">
+    <header class="topbar">
+      <div class="search">
+        <input id="globalSearch" placeholder="Buscar produto pelo nome (Enter)..." />
+      </div>
+
+      <div class="topRight" style="display:flex; gap:10px; align-items:center;">
+        <span id="apiStatus" class="pill">API: ...</span>
+      </div>
+    </header>
+
+    <!-- DASH -->
+    <main id="dash" class="page">
+      <div class="pageHeader">
+        <h1>Dashboard</h1>
+        <button id="btnRefresh" class="btn" type="button">Atualizar</button>
+      </div>
+
+      <section class="grid3">
+  <div class="card">
+    <div class="cardTop"><span class="muted">Total de Produtos</span></div>
+    <div id="kpiTotalProducts" class="kpi">-</div>
+  </div>
+
+  <div class="card">
+    <div class="cardTop"><span class="muted">Valor Total do Estoque</span></div>
+    <div id="kpiTotalValue" class="kpi">-</div>
+  </div>
+
+  <div class="card">
+    <div class="cardTop"><span class="muted">Produtos com Estoque Baixo</span></div>
+    <div id="kpiLowStock" class="kpi">-</div>
+  </div>
+</section>
+
+<section class="grid2">
+  <div class="card">
+    <div class="cardTitleRow">
+    <h2>Produtos (<span id="totalProductsTable">0</span>)</h2>
+    </div>
+
+    <canvas id="chart" height="160"></canvas>
+    <div id="byCategoryList" class="miniList"></div>
+  </div>
+
+  <div class="card">
+    <div class="cardTitleRow">
+      <h2>Estoque baixo (&lt; 10)</h2>
+      <span class="muted">Top 20</span>
+    </div>
+
+    <div id="lowStockList" class="list"></div>
+  </div>
+</section>
+
+        <div class="card">
+          <div class="cardTitleRow">
+            <h2>Estoque baixo (&lt; 10)</h2>
+            <span class="muted">Top 20</span>
+          </div>
+          <div id="lowStockList" class="list"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="cardTitleRow">
+          <h2>Produtos</h2>
+          <div class="row">
+            <select id="categoryFilter"></select>
+          </div>
+        </div>
+
+        <div class="tableWrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Marca</th>
+                <th>Veículo</th>
+                <th>Preço</th>
+                <th>Estoque</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="productsTbody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <!-- PRODUCTS -->
+    <main id="products" class="page hidden">
+      <div class="pageHeader">
+        <h1>Produtos</h1>
+      </div>
+
+      <section class="card">
+        <h2>Novo produto</h2>
+        <form id="productForm" class="form">
+          <input id="pName" placeholder="Nome" required />
+          <input id="pBrand" placeholder="Marca" required />
+          <input id="pSku" placeholder="Veículo (ex: Gol, Onix...)" required />
+          <input id="pDescription" placeholder="Descrição (opcional)" />
+          <input id="pPrice" type="number" step="0.01" placeholder="Preço" required />
+          <input id="pStock" type="number" step="1" placeholder="Estoque" required />
+          <select id="pCategory" required></select>
+          <button class="btn" type="submit">Cadastrar</button>
+        </form>
+        <p class="muted" style="margin-top:10px;">
+          Obs: este front usa os campos do seu Mongo: <b>nome, marca, veiculo, categoria, preco, estoque</b>.
+        </p>
+      </section>
+    </main>
+
+    <!-- CATEGORIES -->
+    <main id="categories" class="page hidden">
+      <div class="pageHeader">
+        <h1>Categorias</h1>
+      </div>
+
+      <section class="card">
+        <h2>Nova categoria</h2>
+        <form id="categoryForm" class="form one">
+          <input id="cName" placeholder="Nome da categoria" required />
+          <button class="btn" type="submit">Adicionar</button>
+        </form>
+
+        <h2>Lista</h2>
+        <div id="categoriesList" class="list"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
